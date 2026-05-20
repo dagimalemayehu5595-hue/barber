@@ -385,9 +385,8 @@ fieldset {
 
 .barber-photo {
   position: relative;
-  display: grid;
+  display: block;
   min-height: 104px;
-  place-items: center;
   overflow: hidden;
   border: 1px solid rgba(241, 184, 93, 0.28);
   background:
@@ -407,16 +406,11 @@ fieldset {
   text-transform: uppercase;
 }
 
-.barber-photo span {
-  display: grid;
-  width: 62px;
-  height: 62px;
-  place-items: center;
-  border: 1px solid rgba(255, 241, 214, 0.22);
-  border-radius: 50%;
-  color: var(--gold);
-  font-size: 1.25rem;
-  font-weight: 900;
+.barber-photo img {
+  display: block;
+  width: 100%;
+  height: 128px;
+  object-fit: cover;
 }
 
 .barber-choice small,
