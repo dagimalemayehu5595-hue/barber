@@ -1,0 +1,614 @@
+:root {
+  color-scheme: dark;
+  --ink: #121111;
+  --coal: #171513;
+  --panel: #211d19;
+  --cream: #fff1d6;
+  --muted: #cdbf9f;
+  --copper: #c97838;
+  --gold: #f1b85d;
+  --teal: #3fb7a7;
+  --line: rgba(255, 241, 214, 0.18);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--cream);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px clamp(18px, 5vw, 64px);
+  background: linear-gradient(180deg, rgba(18, 17, 17, 0.88), rgba(18, 17, 17, 0));
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.brand-mark {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid var(--gold);
+  background: rgba(18, 17, 17, 0.72);
+  color: var(--gold);
+  font-weight: 900;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+  line-height: 1.05;
+}
+
+.brand small {
+  color: var(--muted);
+  font-size: 0.76rem;
+  margin-top: 4px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+nav a {
+  border: 1px solid transparent;
+  color: rgba(255, 241, 214, 0.82);
+  padding: 10px 12px;
+  font-size: 0.94rem;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  border-color: var(--line);
+  color: var(--cream);
+}
+
+.hero {
+  position: relative;
+  min-height: 92svh;
+  overflow: hidden;
+  display: grid;
+  align-items: end;
+  padding: 112px clamp(18px, 5vw, 64px) 42px;
+}
+
+.hero-image,
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-image {
+  object-fit: cover;
+}
+
+.hero-shade {
+  background:
+    linear-gradient(90deg, rgba(18, 17, 17, 0.94) 0%, rgba(18, 17, 17, 0.74) 42%, rgba(18, 17, 17, 0.28) 78%),
+    linear-gradient(0deg, var(--ink) 0%, rgba(18, 17, 17, 0.18) 32%, rgba(18, 17, 17, 0.3) 100%);
+}
+
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 700px) minmax(230px, 320px);
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 780px;
+  margin-bottom: 18px;
+  font-size: clamp(3.45rem, 9vw, 8.8rem);
+  line-height: 0.89;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.hero-text {
+  max-width: 560px;
+  color: rgba(255, 241, 214, 0.84);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.6;
+}
+
+.hero-actions,
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  padding: 0 22px;
+  color: var(--cream);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.button:hover,
+.button:focus-visible {
+  transform: translateY(-2px);
+}
+
+.primary,
+.submit {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, var(--gold), var(--copper));
+  color: #1b1009;
+}
+
+.ghost {
+  background: rgba(255, 241, 214, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.ghost.dark {
+  color: var(--ink);
+  border-color: rgba(18, 17, 17, 0.24);
+  background: rgba(18, 17, 17, 0.06);
+}
+
+.price-ticket {
+  border: 1px solid rgba(241, 184, 93, 0.52);
+  background: rgba(18, 17, 17, 0.68);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  backdrop-filter: blur(16px);
+}
+
+.price-ticket span,
+.price-ticket small {
+  display: block;
+  color: var(--muted);
+}
+
+.price-ticket strong {
+  display: block;
+  margin: 8px 0;
+  color: var(--gold);
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  line-height: 0.95;
+}
+
+.booking-band,
+.info-band,
+.contact-band {
+  padding: 82px clamp(18px, 5vw, 64px);
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 0 auto 28px;
+  max-width: 1180px;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.booking-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(310px, 0.75fr);
+  gap: 18px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.booking-form,
+.booking-preview {
+  border: 1px solid var(--line);
+  background: linear-gradient(145deg, rgba(255, 241, 214, 0.08), rgba(255, 241, 214, 0.025));
+  box-shadow: var(--shadow);
+}
+
+.booking-form {
+  display: grid;
+  gap: 18px;
+  padding: clamp(18px, 3vw, 34px);
+}
+
+.form-row {
+  display: grid;
+  gap: 18px;
+}
+
+.form-row.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+label,
+fieldset {
+  min-width: 0;
+}
+
+label span,
+legend {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 241, 214, 0.86);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+em {
+  color: var(--muted);
+  font-style: normal;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"],
+input[type="time"] {
+  width: 100%;
+  min-height: 54px;
+  border: 1px solid rgba(255, 241, 214, 0.18);
+  border-radius: 0;
+  background: rgba(18, 17, 17, 0.62);
+  color: var(--cream);
+  outline: none;
+  padding: 0 14px;
+}
+
+input:focus {
+  border-color: var(--teal);
+}
+
+fieldset {
+  margin: 0;
+  border: 1px solid rgba(255, 241, 214, 0.16);
+  padding: 14px;
+}
+
+.payment-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.payment-choice input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold);
+}
+
+.payment-choice span {
+  margin: 0;
+}
+
+.payment-choice small,
+.upload-box small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.upload-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px dashed rgba(241, 184, 93, 0.62);
+  background: rgba(241, 184, 93, 0.08);
+  padding: 16px;
+  cursor: pointer;
+}
+
+.upload-box input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.upload-icon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.submit {
+  width: 100%;
+}
+
+.form-note {
+  margin: -6px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.booking-preview {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  padding: clamp(18px, 3vw, 30px);
+}
+
+.booking-preview h3 {
+  margin-bottom: 8px;
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+}
+
+.booking-preview p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.proof-preview {
+  display: grid;
+  min-height: 260px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 241, 214, 0.14);
+  background: rgba(18, 17, 17, 0.48);
+  color: var(--muted);
+}
+
+.proof-preview img {
+  width: 100%;
+  height: 100%;
+  max-height: 360px;
+  object-fit: cover;
+}
+
+.summary-list {
+  display: grid;
+  gap: 10px;
+}
+
+.summary-list p {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.summary-list span {
+  color: var(--muted);
+}
+
+.summary-list strong {
+  text-align: right;
+}
+
+.info-band {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  gap: 28px;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.info-panel {
+  align-self: center;
+}
+
+.info-panel .eyebrow,
+.contact-band .eyebrow {
+  color: #087f73;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.steps article {
+  min-height: 220px;
+  border: 1px solid rgba(18, 17, 17, 0.16);
+  padding: 20px;
+  background: rgba(18, 17, 17, 0.04);
+}
+
+.steps span {
+  color: var(--copper);
+  font-weight: 900;
+}
+
+.steps h3 {
+  margin: 54px 0 10px;
+  font-size: 1.7rem;
+}
+
+.steps p,
+.contact-band p {
+  color: rgba(18, 17, 17, 0.72);
+  line-height: 1.55;
+}
+
+.contact-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 30;
+  width: min(420px, calc(100vw - 36px));
+  transform: translateY(24px);
+  border: 1px solid rgba(63, 183, 167, 0.7);
+  background: rgba(18, 17, 17, 0.94);
+  box-shadow: var(--shadow);
+  color: var(--cream);
+  opacity: 0;
+  pointer-events: none;
+  padding: 16px;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media (max-width: 920px) {
+  .hero {
+    min-height: auto;
+    padding-top: 118px;
+  }
+
+  .hero-grid,
+  .booking-shell,
+  .info-band {
+    grid-template-columns: 1fr;
+  }
+
+  .price-ticket {
+    max-width: 360px;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    align-items: flex-start;
+    padding: 14px;
+  }
+
+  nav {
+    gap: 2px;
+  }
+
+  nav a {
+    padding: 9px 7px;
+    font-size: 0.82rem;
+  }
+
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brand strong {
+    font-size: 0.92rem;
+  }
+
+  .brand small {
+    font-size: 0.68rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 16vw, 5rem);
+  }
+
+  .hero-grid {
+    gap: 22px;
+  }
+
+  .form-row.two,
+  .section-heading,
+  .contact-band {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .booking-band,
+  .info-band,
+  .contact-band {
+    padding: 58px 14px;
+  }
+
+  .summary-list p {
+    display: grid;
+    gap: 4px;
+  }
+
+  .summary-list strong {
+    text-align: left;
+  }
+}
