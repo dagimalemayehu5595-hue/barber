@@ -351,6 +351,14 @@ fieldset {
   cursor: pointer;
 }
 
+.barber-choice {
+  position: relative;
+  align-items: stretch;
+  min-height: 156px;
+  flex-direction: column;
+  padding-top: 38px;
+}
+
 .barber-choice:has(input:checked),
 .payment-choice:has(input:checked) {
   border-color: var(--gold);
@@ -364,9 +372,51 @@ fieldset {
   accent-color: var(--gold);
 }
 
+.barber-choice input {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+}
+
 .barber-choice span,
 .payment-choice span {
   margin: 0;
+}
+
+.barber-photo {
+  position: relative;
+  display: grid;
+  min-height: 104px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(241, 184, 93, 0.28);
+  background:
+    linear-gradient(135deg, rgba(63, 183, 167, 0.24), transparent 42%),
+    linear-gradient(315deg, rgba(241, 184, 93, 0.28), rgba(18, 17, 17, 0.22)),
+    rgba(18, 17, 17, 0.5);
+}
+
+.barber-photo::after {
+  position: absolute;
+  right: 10px;
+  bottom: 9px;
+  color: rgba(255, 241, 214, 0.64);
+  content: "Photo";
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.barber-photo span {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  place-items: center;
+  border: 1px solid rgba(255, 241, 214, 0.22);
+  border-radius: 50%;
+  color: var(--gold);
+  font-size: 1.25rem;
+  font-weight: 900;
 }
 
 .barber-choice small,
