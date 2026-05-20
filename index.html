@@ -6,7 +6,7 @@
     <title>Submit 72 Barber Booking</title>
     <meta
       name="description"
-      content="Book a haircut before visiting Submit 72 Barber in Addis Ababa. Haircuts are 500 ETB with Telebirr payment."
+      content="Book a haircut with Dagibladez or 360yabu before visiting Submit 72 Barber in Addis Ababa. Haircuts are 500 ETB."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -41,18 +41,18 @@
             <p class="eyebrow">Addis Ababa / Submit 72</p>
             <h1 id="hero-title">Book first. Walk in fresh.</h1>
             <p class="hero-text">
-              Reserve your haircut slot before you come in. Clean cut, simple payment, no waiting around.
+              Choose your barber, reserve your slot, pay ahead, and arrive ready for the chair.
             </p>
             <div class="hero-actions">
               <a class="button primary" href="#booking">Book a haircut</a>
-              <a class="button ghost" href="tel:0993534777">Call 0993534777</a>
+              <a class="button ghost" href="#booking">Pick your barber</a>
             </div>
           </div>
 
           <aside class="price-ticket" aria-label="Haircut price">
             <span>Haircut</span>
             <strong>500 ETB</strong>
-            <small>Telebirr payment proof required</small>
+            <small>Choose Dagibladez or 360yabu</small>
           </aside>
         </div>
       </section>
@@ -65,6 +65,26 @@
 
         <div class="booking-shell">
           <form class="booking-form" id="bookingForm">
+            <fieldset>
+              <legend>Choose your barber</legend>
+              <div class="barber-options">
+                <label class="barber-choice">
+                  <input name="barber" type="radio" value="dagibladez" checked />
+                  <span>
+                    <strong>Dagibladez</strong>
+                    <small>Telebirr: 0993534777</small>
+                  </span>
+                </label>
+                <label class="barber-choice">
+                  <input name="barber" type="radio" value="360yabu" />
+                  <span>
+                    <strong>360yabu</strong>
+                    <small>Telebirr or Abysiniya Bank</small>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
             <div class="form-row two">
               <label>
                 <span>Full name</span>
@@ -101,13 +121,7 @@
 
             <fieldset>
               <legend>Payment method</legend>
-              <label class="payment-choice">
-                <input name="paymentMethod" type="radio" value="Telebirr" checked />
-                <span>
-                  <strong>Telebirr</strong>
-                  <small>Send 500 ETB to 0993534777</small>
-                </span>
-              </label>
+              <div id="paymentMethods"></div>
             </fieldset>
 
             <label class="upload-box" id="uploadBox">
@@ -115,7 +129,7 @@
               <span class="upload-icon" aria-hidden="true">+</span>
               <span>
                 <strong>Upload payment proof</strong>
-                <small>Screenshot or photo of your Telebirr receipt</small>
+                <small id="proofHelp">Screenshot or photo of your payment receipt</small>
               </span>
             </label>
 
@@ -127,15 +141,16 @@
             <div>
               <p class="eyebrow">Your booking</p>
               <h3 id="previewName">Waiting for details</h3>
-              <p id="previewMeta">500 ETB haircut - Telebirr 0993534777</p>
+              <p id="previewMeta">500 ETB haircut - Dagibladez - Telebirr 0993534777</p>
             </div>
             <div class="proof-preview" id="proofPreview">
               <span>Payment proof preview</span>
             </div>
             <div class="summary-list">
               <p><span>Location</span><strong>Addis Ababa, Submit 72</strong></p>
-              <p><span>Phone</span><strong>0993534777</strong></p>
-              <p><span>Email</span><strong>Dagimhailu01@icloud.com</strong></p>
+              <p><span>Barber</span><strong id="previewBarber">Dagibladez</strong></p>
+              <p><span>Phone</span><strong id="previewPhone">0993534777</strong></p>
+              <p><span>Email</span><strong id="previewEmail">Dagimhailu01@icloud.com</strong></p>
             </div>
           </aside>
         </div>
@@ -150,7 +165,7 @@
           <article>
             <span>01</span>
             <h3>Pay</h3>
-            <p>Send 500 ETB through Telebirr to 0993534777.</p>
+            <p>Choose Dagibladez or 360yabu, then send 500 ETB using that barber's payment method.</p>
           </article>
           <article>
             <span>02</span>
@@ -171,9 +186,17 @@
           <h2 id="contact-title">Submit 72 Barber Studio</h2>
           <p>Addis Ababa, Submit 72</p>
         </div>
-        <div class="contact-actions">
-          <a class="button primary" href="tel:0993534777">Call now</a>
-          <a class="button ghost dark" href="mailto:Dagimhailu01@icloud.com">Email shop</a>
+        <div class="barber-contact-list">
+          <article>
+            <strong>Dagibladez</strong>
+            <a href="tel:0993534777">0993534777</a>
+            <a href="mailto:Dagimhailu01@icloud.com">Dagimhailu01@icloud.com</a>
+          </article>
+          <article>
+            <strong>360yabu</strong>
+            <a href="tel:0939025328">0939025328</a>
+            <a href="mailto:simonyabtsega@gmail.com">simonyabtsega@gmail.com</a>
+          </article>
         </div>
       </section>
     </main>

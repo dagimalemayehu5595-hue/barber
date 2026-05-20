@@ -333,23 +333,43 @@ fieldset {
   padding: 14px;
 }
 
-.payment-choice {
-  display: flex;
-  align-items: center;
+.barber-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-top: 10px;
 }
 
+.barber-choice,
+.payment-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(255, 241, 214, 0.15);
+  background: rgba(18, 17, 17, 0.42);
+  padding: 14px;
+  cursor: pointer;
+}
+
+.barber-choice:has(input:checked),
+.payment-choice:has(input:checked) {
+  border-color: var(--gold);
+  background: rgba(241, 184, 93, 0.1);
+}
+
+.barber-choice input,
 .payment-choice input {
   width: 18px;
   height: 18px;
   accent-color: var(--gold);
 }
 
+.barber-choice span,
 .payment-choice span {
   margin: 0;
 }
 
+.barber-choice small,
 .payment-choice small,
 .upload-box small {
   display: block;
@@ -510,6 +530,30 @@ fieldset {
   color: var(--ink);
 }
 
+.barber-contact-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 12px;
+  width: min(640px, 100%);
+}
+
+.barber-contact-list article {
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(18, 17, 17, 0.18);
+  background: rgba(18, 17, 17, 0.06);
+  padding: 16px;
+}
+
+.barber-contact-list strong {
+  font-size: 1.08rem;
+}
+
+.barber-contact-list a {
+  overflow-wrap: anywhere;
+  color: rgba(18, 17, 17, 0.78);
+}
+
 .toast {
   position: fixed;
   right: 18px;
@@ -590,6 +634,8 @@ fieldset {
   }
 
   .form-row.two,
+  .barber-options,
+  .barber-contact-list,
   .section-heading,
   .contact-band {
     grid-template-columns: 1fr;
