@@ -1,4 +1,5 @@
 bookings.json
 uploads/
+.env
 .DS_Store
 Thumbs.db
