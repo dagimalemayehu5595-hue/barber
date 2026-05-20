@@ -602,6 +602,34 @@ fieldset {
   color: rgba(18, 17, 17, 0.78);
 }
 
+.developer-credit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  border-top: 1px solid rgba(255, 241, 214, 0.12);
+  background: #0f0e0d;
+  color: rgba(255, 241, 214, 0.7);
+  padding: 18px clamp(18px, 5vw, 64px);
+  font-size: 0.9rem;
+}
+
+.developer-credit strong {
+  color: var(--cream);
+}
+
+.developer-credit span:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+
+.developer-credit a {
+  color: var(--gold);
+  font-weight: 700;
+}
+
 .toast {
   position: fixed;
   right: 18px;
