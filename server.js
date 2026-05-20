@@ -1,4 +1,5 @@
 const http = require("http");
+const https = require("https");
 const fs = require("fs");
 const path = require("path");
 
@@ -20,6 +21,81 @@ const mimeTypes = {
 const send = (res, status, body, type = "application/json; charset=utf-8") => {
   res.writeHead(status, { "Content-Type": type });
   res.end(body);
+};
+
+const sendTelegramPhoto = async (saved) => {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (!token || !chatId) {
+    console.warn("Telegram is not configured. Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID.");
+    return;
+  }
+
+  const proofPath = path.join(ROOT, saved.proofFile);
+  const proof = await fs.promises.readFile(proofPath);
+  const boundary = `----submit72-${Date.now()}`;
+  const caption = [
+    "New Submit 72 Barber Booking",
+    "",
+    `Client: ${saved.name}`,
+    `Client phone: ${saved.phone}`,
+    `Client email: ${saved.email}`,
+    `Barber: ${saved.barber}`,
+    `Barber phone: ${saved.barberPhone}`,
+    `Date: ${saved.date}`,
+    `Time: ${saved.time}`,
+    `Service: ${saved.service}`,
+    `Price: ${saved.price}`,
+    `Payment: ${saved.paymentMethod}`,
+    `Payment account: ${saved.paymentAccountNumber}`,
+    `Account holder: ${saved.paymentAccountHolder}`,
+    `Booking ID: ${saved.id}`,
+  ].join("\n");
+
+  const fileName = path.basename(saved.proofFile);
+  const chunks = [
+    Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="chat_id"\r\n\r\n${chatId}\r\n`),
+    Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="caption"\r\n\r\n${caption}\r\n`),
+    Buffer.from(
+      `--${boundary}\r\nContent-Disposition: form-data; name="photo"; filename="${fileName}"\r\nContent-Type: image/jpeg\r\n\r\n`,
+    ),
+    proof,
+    Buffer.from(`\r\n--${boundary}--\r\n`),
+  ];
+
+  const body = Buffer.concat(chunks);
+
+  await new Promise((resolve, reject) => {
+    const req = https.request(
+      {
+        hostname: "api.telegram.org",
+        path: `/bot${token}/sendPhoto`,
+        method: "POST",
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${boundary}`,
+          "Content-Length": body.length,
+        },
+      },
+      (response) => {
+        let data = "";
+        response.on("data", (chunk) => {
+          data += chunk;
+        });
+        response.on("end", () => {
+          if (response.statusCode >= 200 && response.statusCode < 300) {
+            resolve();
+          } else {
+            reject(new Error(`Telegram returned ${response.statusCode}: ${data}`));
+          }
+        });
+      },
+    );
+
+    req.on("error", reject);
+    req.write(body);
+    req.end();
+  });
 };
 
 const safeName = (value) =>
@@ -118,6 +194,11 @@ const server = http.createServer(async (req, res) => {
     try {
       const booking = JSON.parse(await readBody(req));
       const saved = await saveBooking(booking);
+      try {
+        await sendTelegramPhoto(saved);
+      } catch (telegramError) {
+        console.error(telegramError.message);
+      }
       send(res, 201, JSON.stringify({ ok: true, booking: saved }));
     } catch (error) {
       send(res, 400, JSON.stringify({ ok: false, error: error.message }));
