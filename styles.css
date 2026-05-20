@@ -242,6 +242,32 @@ h1 {
   padding: 82px clamp(18px, 5vw, 64px);
 }
 
+.booking-band {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(63, 183, 167, 0.1), transparent 34%),
+    linear-gradient(315deg, rgba(201, 120, 56, 0.18), transparent 38%),
+    var(--ink);
+}
+
+.booking-band::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 241, 214, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 241, 214, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  content: "";
+  mask-image: linear-gradient(180deg, transparent, #000 16%, #000 86%, transparent);
+  pointer-events: none;
+}
+
+.booking-band > * {
+  position: relative;
+  z-index: 1;
+}
+
 .section-heading {
   display: flex;
   align-items: end;
@@ -249,6 +275,38 @@ h1 {
   gap: 24px;
   margin: 0 auto 28px;
   max-width: 1180px;
+}
+
+.booking-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 1180px;
+  margin: 0 auto 18px;
+}
+
+.booking-highlights p {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  margin: 0;
+  border: 1px solid rgba(255, 241, 214, 0.13);
+  background: rgba(255, 241, 214, 0.055);
+  color: rgba(255, 241, 214, 0.84);
+  padding: 12px 14px;
+  font-weight: 800;
+}
+
+.booking-highlights span {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(241, 184, 93, 0.56);
+  color: var(--gold);
+  font-size: 0.75rem;
 }
 
 h2 {
@@ -260,23 +318,48 @@ h2 {
 
 .booking-shell {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(310px, 0.75fr);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1.12fr) minmax(330px, 0.72fr);
+  gap: 22px;
   max-width: 1180px;
   margin: 0 auto;
 }
 
 .booking-form,
 .booking-preview {
-  border: 1px solid var(--line);
-  background: linear-gradient(145deg, rgba(255, 241, 214, 0.08), rgba(255, 241, 214, 0.025));
+  border: 1px solid rgba(255, 241, 214, 0.16);
+  background:
+    linear-gradient(145deg, rgba(255, 241, 214, 0.11), rgba(255, 241, 214, 0.035)),
+    rgba(18, 17, 17, 0.78);
   box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
 }
 
 .booking-form {
   display: grid;
-  gap: 18px;
+  gap: 16px;
   padding: clamp(18px, 3vw, 34px);
+}
+
+.form-panel {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  border-color: rgba(255, 241, 214, 0.14);
+  background: rgba(18, 17, 17, 0.22);
+}
+
+.form-panel legend {
+  width: auto;
+  padding: 0 8px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.final-panel {
+  border: 1px solid rgba(255, 241, 214, 0.14);
+  padding: 14px;
 }
 
 .form-row {
@@ -315,16 +398,19 @@ input[type="date"],
 input[type="time"] {
   width: 100%;
   min-height: 54px;
-  border: 1px solid rgba(255, 241, 214, 0.18);
+  border: 1px solid rgba(255, 241, 214, 0.2);
   border-radius: 0;
-  background: rgba(18, 17, 17, 0.62);
+  background: rgba(10, 9, 8, 0.66);
   color: var(--cream);
   outline: none;
   padding: 0 14px;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
 
 input:focus {
   border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(63, 183, 167, 0.12);
+  background: rgba(10, 9, 8, 0.86);
 }
 
 fieldset {
@@ -340,15 +426,23 @@ fieldset {
   margin-top: 10px;
 }
 
+#paymentMethods {
+  display: grid;
+  gap: 12px;
+}
+
 .barber-choice,
 .payment-choice {
   display: flex;
   align-items: center;
   gap: 12px;
-  border: 1px solid rgba(255, 241, 214, 0.15);
-  background: rgba(18, 17, 17, 0.42);
+  border: 1px solid rgba(255, 241, 214, 0.16);
+  background:
+    linear-gradient(145deg, rgba(255, 241, 214, 0.08), rgba(255, 241, 214, 0.02)),
+    rgba(18, 17, 17, 0.42);
   padding: 14px;
   cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
 .barber-choice {
@@ -359,10 +453,19 @@ fieldset {
   padding-top: 38px;
 }
 
+.barber-choice:hover,
+.payment-choice:hover {
+  transform: translateY(-2px);
+  border-color: rgba(241, 184, 93, 0.46);
+}
+
 .barber-choice:has(input:checked),
 .payment-choice:has(input:checked) {
   border-color: var(--gold);
-  background: rgba(241, 184, 93, 0.1);
+  background:
+    linear-gradient(145deg, rgba(241, 184, 93, 0.18), rgba(63, 183, 167, 0.08)),
+    rgba(18, 17, 17, 0.68);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.2);
 }
 
 .barber-choice input,
@@ -389,7 +492,7 @@ fieldset {
   width: 100%;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  border: 1px solid rgba(241, 184, 93, 0.28);
+  border: 1px solid rgba(241, 184, 93, 0.34);
   box-shadow: inset 0 0 0 1px rgba(255, 241, 214, 0.08);
   background:
     linear-gradient(135deg, rgba(63, 183, 167, 0.24), transparent 42%),
@@ -402,7 +505,7 @@ fieldset {
   right: 10px;
   bottom: 9px;
   color: rgba(255, 241, 214, 0.64);
-  content: "Photo";
+  content: "Barber";
   font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -430,8 +533,10 @@ fieldset {
   display: flex;
   align-items: center;
   gap: 14px;
-  border: 1px dashed rgba(241, 184, 93, 0.62);
-  background: rgba(241, 184, 93, 0.08);
+  border: 1px dashed rgba(241, 184, 93, 0.72);
+  background:
+    linear-gradient(135deg, rgba(241, 184, 93, 0.14), rgba(63, 183, 167, 0.08)),
+    rgba(18, 17, 17, 0.34);
   padding: 16px;
   cursor: pointer;
 }
@@ -472,6 +577,29 @@ fieldset {
   align-content: start;
   gap: 20px;
   padding: clamp(18px, 3vw, 30px);
+  position: sticky;
+  top: 96px;
+}
+
+.preview-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+}
+
+.preview-topline span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.preview-topline strong {
+  color: var(--gold);
+  font-size: 1.55rem;
 }
 
 .booking-preview h3 {
@@ -486,11 +614,13 @@ fieldset {
 
 .proof-preview {
   display: grid;
-  min-height: 260px;
+  min-height: 300px;
   place-items: center;
   overflow: hidden;
-  border: 1px solid rgba(255, 241, 214, 0.14);
-  background: rgba(18, 17, 17, 0.48);
+  border: 1px solid rgba(241, 184, 93, 0.22);
+  background:
+    linear-gradient(135deg, rgba(63, 183, 167, 0.12), transparent),
+    rgba(18, 17, 17, 0.48);
   color: var(--muted);
 }
 
@@ -527,12 +657,22 @@ fieldset {
   display: grid;
   grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
   gap: 28px;
-  background: var(--cream);
+  background:
+    linear-gradient(120deg, rgba(255, 241, 214, 0.94), rgba(255, 241, 214, 1)),
+    var(--cream);
   color: var(--ink);
 }
 
 .info-panel {
   align-self: center;
+}
+
+.info-panel p:not(.eyebrow) {
+  max-width: 520px;
+  margin: 20px 0 0;
+  color: rgba(18, 17, 17, 0.66);
+  font-size: 1.05rem;
+  line-height: 1.65;
 }
 
 .info-panel .eyebrow,
@@ -543,14 +683,29 @@ fieldset {
 .steps {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
 }
 
 .steps article {
-  min-height: 220px;
+  position: relative;
+  min-height: 240px;
   border: 1px solid rgba(18, 17, 17, 0.16);
   padding: 20px;
-  background: rgba(18, 17, 17, 0.04);
+  background:
+    linear-gradient(180deg, rgba(18, 17, 17, 0.02), rgba(18, 17, 17, 0.08)),
+    rgba(18, 17, 17, 0.035);
+  overflow: hidden;
+}
+
+.steps article::after {
+  position: absolute;
+  right: -20px;
+  bottom: -36px;
+  color: rgba(18, 17, 17, 0.06);
+  content: attr(data-step);
+  font-size: 8rem;
+  font-weight: 900;
+  line-height: 1;
 }
 
 .steps span {
@@ -574,7 +729,8 @@ fieldset {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  background: var(--gold);
+  background:
+    linear-gradient(135deg, var(--gold), #f4c875 48%, var(--teal));
   color: var(--ink);
 }
 
@@ -671,6 +827,10 @@ fieldset {
   .steps {
     grid-template-columns: 1fr;
   }
+
+  .booking-preview {
+    position: static;
+  }
 }
 
 @media (max-width: 640px) {
@@ -712,6 +872,7 @@ fieldset {
   .form-row.two,
   .barber-options,
   .barber-contact-list,
+  .booking-highlights,
   .section-heading,
   .contact-band {
     grid-template-columns: 1fr;

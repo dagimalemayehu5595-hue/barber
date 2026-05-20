@@ -63,9 +63,15 @@
           <h2 id="booking-title">Book your chair</h2>
         </div>
 
+        <div class="booking-highlights" aria-label="Booking highlights">
+          <p><span>01</span> Pick your barber</p>
+          <p><span>02</span> Pay 500 ETB</p>
+          <p><span>03</span> Upload proof</p>
+        </div>
+
         <div class="booking-shell">
           <form class="booking-form" id="bookingForm">
-            <fieldset>
+            <fieldset class="form-panel barber-panel">
               <legend>Choose your barber</legend>
               <div class="barber-options">
                 <label class="barber-choice">
@@ -91,59 +97,68 @@
               </div>
             </fieldset>
 
-            <div class="form-row two">
-              <label>
-                <span>Full name</span>
-                <input name="clientName" type="text" autocomplete="name" placeholder="Your name" required />
-              </label>
-              <label>
-                <span>Phone number</span>
-                <input
-                  name="phone"
-                  type="tel"
-                  autocomplete="tel"
-                  inputmode="tel"
-                  placeholder="09..."
-                  required
-                />
-              </label>
-            </div>
+            <fieldset class="form-panel">
+              <legend>Your details</legend>
+              <div class="form-row two">
+                <label>
+                  <span>Full name</span>
+                  <input name="clientName" type="text" autocomplete="name" placeholder="Your name" required />
+                </label>
+                <label>
+                  <span>Phone number</span>
+                  <input
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    inputmode="tel"
+                    placeholder="09..."
+                    required
+                  />
+                </label>
+              </div>
 
-            <label>
-              <span>Email <em>optional</em></span>
-              <input name="email" type="email" autocomplete="email" placeholder="you@example.com" />
-            </label>
-
-            <div class="form-row two">
               <label>
-                <span>Date</span>
-                <input name="date" type="date" required />
+                <span>Email <em>optional</em></span>
+                <input name="email" type="email" autocomplete="email" placeholder="you@example.com" />
               </label>
-              <label>
-                <span>Time</span>
-                <input name="time" type="time" min="08:00" max="21:00" required />
-              </label>
-            </div>
 
-            <fieldset>
+              <div class="form-row two">
+                <label>
+                  <span>Date</span>
+                  <input name="date" type="date" required />
+                </label>
+                <label>
+                  <span>Time</span>
+                  <input name="time" type="time" min="08:00" max="21:00" required />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-panel payment-panel">
               <legend>Payment method</legend>
               <div id="paymentMethods"></div>
             </fieldset>
 
-            <label class="upload-box" id="uploadBox">
-              <input name="paymentProof" id="paymentProof" type="file" accept="image/*" required />
-              <span class="upload-icon" aria-hidden="true">+</span>
-              <span>
-                <strong>Upload payment proof</strong>
-                <small id="proofHelp">Screenshot or photo of your payment receipt</small>
-              </span>
-            </label>
+            <div class="form-panel final-panel">
+              <label class="upload-box" id="uploadBox">
+                <input name="paymentProof" id="paymentProof" type="file" accept="image/*" required />
+                <span class="upload-icon" aria-hidden="true">+</span>
+                <span>
+                  <strong>Upload payment proof</strong>
+                  <small id="proofHelp">Screenshot or photo of your payment receipt</small>
+                </span>
+              </label>
 
-            <button class="button submit" type="submit">Reserve haircut</button>
-            <p class="form-note">We will confirm your booking using the phone number you provide.</p>
+              <button class="button submit" type="submit">Reserve haircut</button>
+              <p class="form-note">We will confirm your booking using the phone number you provide.</p>
+            </div>
           </form>
 
           <aside class="booking-preview" aria-live="polite">
+            <div class="preview-topline">
+              <span>Live ticket</span>
+              <strong>500 ETB</strong>
+            </div>
             <div>
               <p class="eyebrow">Your booking</p>
               <h3 id="previewName">Waiting for details</h3>
@@ -166,19 +181,20 @@
         <div class="info-panel">
           <p class="eyebrow">Before you arrive</p>
           <h2>One clean flow from phone to chair.</h2>
+          <p>Everything is built around avoiding wait time: choose your barber, lock the payment, and arrive with your proof ready.</p>
         </div>
         <div class="steps" aria-label="Booking steps">
-          <article>
+          <article data-step="01">
             <span>01</span>
             <h3>Pay</h3>
             <p>Choose Dagibladez or 360yabu, then send 500 ETB using that barber's payment method.</p>
           </article>
-          <article>
+          <article data-step="02">
             <span>02</span>
             <h3>Upload</h3>
             <p>Add your payment proof screenshot in the booking form.</p>
           </article>
-          <article>
+          <article data-step="03">
             <span>03</span>
             <h3>Arrive</h3>
             <p>Come to Submit 72, Addis Ababa at your selected time.</p>
