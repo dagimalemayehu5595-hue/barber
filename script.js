@@ -71,6 +71,14 @@ const showToast = (message) => {
   window.setTimeout(() => toast.classList.remove("show"), 6200);
 };
 
+const isPickedLocally = (booking, bookings) =>
+  bookings.some(
+    (existing) =>
+      String(existing.barber || "").toLowerCase() === String(booking.barber || "").toLowerCase() &&
+      existing.date === booking.date &&
+      existing.time === booking.time,
+  );
+
 const renderPaymentMethods = () => {
   const barber = getSelectedBarber();
   paymentMethods.innerHTML = barber.payments
@@ -194,6 +202,12 @@ form.addEventListener("submit", (event) => {
         body: JSON.stringify(booking),
       });
 
+      if (response.status === 409) {
+        const result = await response.json().catch(() => ({}));
+        showToast(result.error || "That date and time is already picked. Please choose another slot.");
+        return;
+      }
+
       if (!response.ok) {
         throw new Error("Booking server unavailable");
       }
@@ -205,6 +219,11 @@ form.addEventListener("submit", (event) => {
         proofDataUrl: "Saved in this browser only",
       };
       const bookings = JSON.parse(localStorage.getItem("submit72Bookings") || "[]");
+      if (isPickedLocally(savedBooking, bookings)) {
+        showToast("That date and time is already picked for this barber. Please choose another slot.");
+        return;
+      }
+
       bookings.unshift(savedBooking);
       localStorage.setItem("submit72Bookings", JSON.stringify(bookings.slice(0, 20)));
       showToast(`Booking saved on this device for ${name}. Run the server to receive bookings at the shop.`);

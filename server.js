@@ -119,6 +119,19 @@ const readBody = (req) =>
     req.on("error", reject);
   });
 
+const readBookings = async () => {
+  try {
+    return JSON.parse(await fs.promises.readFile(BOOKINGS_FILE, "utf8"));
+  } catch (error) {
+    return [];
+  }
+};
+
+const isSameSlot = (booking, candidate) =>
+  String(booking.barber || "").toLowerCase() === String(candidate.barber || "").toLowerCase() &&
+  booking.date === candidate.date &&
+  booking.time === candidate.time;
+
 const saveBooking = async (booking) => {
   const required = ["name", "phone", "date", "time", "proofDataUrl"];
   for (const field of required) {
@@ -132,19 +145,19 @@ const saveBooking = async (booking) => {
     throw new Error("Payment proof must be a PNG, JPG, or WebP image");
   }
 
+  const bookings = await readBookings();
+  if (bookings.some((existing) => isSameSlot(existing, booking))) {
+    const error = new Error("This date and time is already picked for that barber.");
+    error.statusCode = 409;
+    throw error;
+  }
+
   await fs.promises.mkdir(UPLOADS_DIR, { recursive: true });
 
   const ext = match[1].includes("png") ? ".png" : match[1].includes("webp") ? ".webp" : ".jpg";
   const id = `${Date.now()}-${safeName(booking.name)}`;
   const proofPath = path.join(UPLOADS_DIR, `${id}${ext}`);
   await fs.promises.writeFile(proofPath, Buffer.from(match[2], "base64"));
-
-  let bookings = [];
-  try {
-    bookings = JSON.parse(await fs.promises.readFile(BOOKINGS_FILE, "utf8"));
-  } catch (error) {
-    bookings = [];
-  }
 
   const saved = {
     id,
@@ -201,7 +214,7 @@ const server = http.createServer(async (req, res) => {
       }
       send(res, 201, JSON.stringify({ ok: true, booking: saved }));
     } catch (error) {
-      send(res, 400, JSON.stringify({ ok: false, error: error.message }));
+      send(res, error.statusCode || 400, JSON.stringify({ ok: false, error: error.message }));
     }
     return;
   }
