@@ -54,6 +54,7 @@ const slotHelp = document.querySelector("#slotHelp");
 const toast = document.querySelector("#toast");
 const dateInput = form.elements.date;
 const timeInput = form.elements.time;
+const SLOT_DURATION_MINUTES = 60;
 const TIME_SLOTS = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
 
 const today = new Date();
@@ -124,11 +125,11 @@ const renderTimeSlots = async () => {
 
   if (!date) {
     timeSlots.innerHTML = "";
-    slotHelp.textContent = "Choose a date to see open times.";
+    slotHelp.textContent = `Choose a date to see open ${SLOT_DURATION_MINUTES}-minute haircut slots.`;
     return;
   }
 
-  slotHelp.textContent = "Loading open times...";
+  slotHelp.textContent = "Loading open haircut slots...";
   const pickedTimes = await getPickedTimes(barber.name, date);
 
   timeSlots.innerHTML = TIME_SLOTS.map((time) => {
@@ -136,7 +137,7 @@ const renderTimeSlots = async () => {
     return `
       <button class="time-slot${isPicked ? " picked" : ""}" type="button" data-time="${time}" ${isPicked ? "disabled" : ""}>
         <strong>${time}</strong>
-        <span>${isPicked ? "Picked" : "Open"}</span>
+        <span>${isPicked ? "Picked" : `${SLOT_DURATION_MINUTES} min`}</span>
       </button>
     `;
   }).join("");
