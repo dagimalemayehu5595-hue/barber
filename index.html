@@ -127,10 +127,12 @@
                   <span>Date</span>
                   <input name="date" type="date" required />
                 </label>
-                <label>
-                  <span>Time</span>
-                  <input name="time" type="time" min="08:00" max="21:00" required />
-                </label>
+                <div class="slot-picker">
+                  <span>Available times</span>
+                  <input name="time" type="hidden" required />
+                  <div class="time-slots" id="timeSlots" aria-live="polite"></div>
+                  <small id="slotHelp">Choose a date to see open times.</small>
+                </div>
               </div>
             </fieldset>
 

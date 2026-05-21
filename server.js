@@ -155,6 +155,16 @@ const isSameSlot = (booking, candidate) =>
   booking.date === candidate.date &&
   booking.time === candidate.time;
 
+const getBookedTimes = async (barber, date) => {
+  const bookings = await readBookings();
+  return bookings
+    .filter(
+      (booking) =>
+        String(booking.barber || "").toLowerCase() === String(barber || "").toLowerCase() && booking.date === date,
+    )
+    .map((booking) => booking.time);
+};
+
 const saveBooking = async (booking) => {
   const required = ["name", "phone", "date", "time", "proofDataUrl"];
   for (const field of required) {
@@ -226,6 +236,21 @@ const serveFile = async (req, res) => {
 };
 
 const server = http.createServer(async (req, res) => {
+  if (req.method === "GET" && req.url.startsWith("/api/availability")) {
+    const url = new URL(req.url, `http://localhost:${PORT}`);
+    const barber = url.searchParams.get("barber");
+    const date = url.searchParams.get("date");
+
+    if (!barber || !date) {
+      send(res, 400, JSON.stringify({ ok: false, error: "Missing barber or date." }));
+      return;
+    }
+
+    const bookedTimes = await getBookedTimes(barber, date);
+    send(res, 200, JSON.stringify({ ok: true, barber, date, bookedTimes }));
+    return;
+  }
+
   if (req.method === "POST" && req.url === "/api/bookings") {
     try {
       const booking = JSON.parse(await readBody(req));

@@ -49,8 +49,12 @@ const previewPhone = document.querySelector("#previewPhone");
 const previewEmail = document.querySelector("#previewEmail");
 const paymentMethods = document.querySelector("#paymentMethods");
 const proofHelp = document.querySelector("#proofHelp");
+const timeSlots = document.querySelector("#timeSlots");
+const slotHelp = document.querySelector("#slotHelp");
 const toast = document.querySelector("#toast");
 const dateInput = form.elements.date;
+const timeInput = form.elements.time;
+const TIME_SLOTS = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
 
 const today = new Date();
 const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000)
@@ -79,6 +83,73 @@ const isPickedLocally = (booking, bookings) =>
       existing.time === booking.time,
   );
 
+const getLocalPickedTimes = (barber, date) => {
+  const bookings = JSON.parse(localStorage.getItem("submit72Bookings") || "[]");
+  return bookings
+    .filter(
+      (booking) =>
+        String(booking.barber || "").toLowerCase() === String(barber || "").toLowerCase() && booking.date === date,
+    )
+    .map((booking) => booking.time);
+};
+
+const getPickedTimes = async (barber, date) => {
+  if (!date) {
+    return [];
+  }
+
+  const localPickedTimes = getLocalPickedTimes(barber, date);
+
+  try {
+    const response = await fetch(
+      `/api/availability?barber=${encodeURIComponent(barber)}&date=${encodeURIComponent(date)}`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Availability server unavailable");
+    }
+
+    const result = await response.json();
+    return [...new Set([...(result.bookedTimes || []), ...localPickedTimes])];
+  } catch (error) {
+    return localPickedTimes;
+  }
+};
+
+const renderTimeSlots = async () => {
+  const barber = getSelectedBarber();
+  const date = dateInput.value;
+
+  timeInput.value = "";
+
+  if (!date) {
+    timeSlots.innerHTML = "";
+    slotHelp.textContent = "Choose a date to see open times.";
+    return;
+  }
+
+  slotHelp.textContent = "Loading open times...";
+  const pickedTimes = await getPickedTimes(barber.name, date);
+
+  timeSlots.innerHTML = TIME_SLOTS.map((time) => {
+    const isPicked = pickedTimes.includes(time);
+    return `
+      <button class="time-slot${isPicked ? " picked" : ""}" type="button" data-time="${time}" ${isPicked ? "disabled" : ""}>
+        <strong>${time}</strong>
+        <span>${isPicked ? "Picked" : "Open"}</span>
+      </button>
+    `;
+  }).join("");
+
+  const openCount = TIME_SLOTS.length - pickedTimes.length;
+  slotHelp.textContent =
+    openCount > 0
+      ? `${openCount} open time${openCount === 1 ? "" : "s"} for ${barber.name}.`
+      : `All times are picked for ${barber.name} on this date.`;
+
+  updatePreview();
+};
+
 const renderPaymentMethods = () => {
   const barber = getSelectedBarber();
   paymentMethods.innerHTML = barber.payments
@@ -102,6 +173,7 @@ const resetBookingUi = () => {
   proofPreview.innerHTML = "<span>Payment proof preview</span>";
   previewName.textContent = "Waiting for details";
   dateInput.min = localToday;
+  renderTimeSlots();
   updatePreview();
 };
 
@@ -128,12 +200,30 @@ const updatePreview = () => {
 form.addEventListener("change", (event) => {
   if (event.target.name === "barber") {
     renderPaymentMethods();
+    renderTimeSlots();
+  }
+
+  if (event.target.name === "date") {
+    renderTimeSlots();
   }
 
   updatePreview();
 });
 
 form.addEventListener("input", updatePreview);
+
+timeSlots.addEventListener("click", (event) => {
+  const slot = event.target.closest(".time-slot");
+
+  if (!slot || slot.disabled) {
+    return;
+  }
+
+  timeInput.value = slot.dataset.time;
+  timeSlots.querySelectorAll(".time-slot").forEach((button) => button.classList.remove("selected"));
+  slot.classList.add("selected");
+  updatePreview();
+});
 
 proofInput.addEventListener("change", () => {
   const file = proofInput.files?.[0];
@@ -171,6 +261,11 @@ form.addEventListener("submit", (event) => {
 
   if (!proof) {
     showToast("Please upload your payment proof before reserving.");
+    return;
+  }
+
+  if (!time) {
+    showToast("Please choose an open time slot before reserving.");
     return;
   }
 
@@ -236,4 +331,5 @@ form.addEventListener("submit", (event) => {
 });
 
 renderPaymentMethods();
+renderTimeSlots();
 updatePreview();
