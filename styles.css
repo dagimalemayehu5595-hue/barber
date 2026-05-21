@@ -898,7 +898,16 @@ fieldset {
   color: var(--cream);
 }
 
-.developer-credit span:last-child {
+.developer-credit div {
+  display: grid;
+  gap: 6px;
+}
+
+.developer-credit small {
+  color: rgba(255, 241, 214, 0.48);
+}
+
+.developer-credit div:last-child {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 16px;
