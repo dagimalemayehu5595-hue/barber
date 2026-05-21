@@ -150,6 +150,24 @@ const readBookings = async () => {
   }
 };
 
+const requireAdmin = (req) => {
+  const adminPin = process.env.ADMIN_PIN;
+  const url = new URL(req.url, `http://localhost:${PORT}`);
+  const submittedPin = req.headers["x-admin-pin"] || url.searchParams.get("pin");
+
+  if (!adminPin) {
+    const error = new Error("Admin PIN is not configured.");
+    error.statusCode = 503;
+    throw error;
+  }
+
+  if (submittedPin !== adminPin) {
+    const error = new Error("Invalid admin PIN.");
+    error.statusCode = 401;
+    throw error;
+  }
+};
+
 const isSameSlot = (booking, candidate) =>
   String(booking.barber || "").toLowerCase() === String(candidate.barber || "").toLowerCase() &&
   booking.date === candidate.date &&
@@ -216,6 +234,29 @@ const saveBooking = async (booking) => {
   return saved;
 };
 
+const deleteBooking = async (bookingId) => {
+  const bookings = await readBookings();
+  const booking = bookings.find((item) => item.id === bookingId);
+
+  if (!booking) {
+    const error = new Error("Booking not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const kept = bookings.filter((item) => item.id !== bookingId);
+  await fs.promises.writeFile(BOOKINGS_FILE, JSON.stringify(kept, null, 2));
+
+  if (booking.proofFile) {
+    const proofPath = path.join(ROOT, booking.proofFile);
+    if (proofPath.startsWith(ROOT)) {
+      await fs.promises.rm(proofPath, { force: true });
+    }
+  }
+
+  return booking;
+};
+
 const serveFile = async (req, res) => {
   const urlPath = decodeURIComponent(new URL(req.url, `http://localhost:${PORT}`).pathname);
   const requested = urlPath === "/" ? "/index.html" : urlPath;
@@ -236,6 +277,30 @@ const serveFile = async (req, res) => {
 };
 
 const server = http.createServer(async (req, res) => {
+  if (req.method === "GET" && req.url.startsWith("/api/bookings")) {
+    try {
+      requireAdmin(req);
+      const bookings = await readBookings();
+      send(res, 200, JSON.stringify({ ok: true, bookings }));
+    } catch (error) {
+      send(res, error.statusCode || 400, JSON.stringify({ ok: false, error: error.message }));
+    }
+    return;
+  }
+
+  if (req.method === "DELETE" && req.url.startsWith("/api/bookings/")) {
+    try {
+      requireAdmin(req);
+      const url = new URL(req.url, `http://localhost:${PORT}`);
+      const bookingId = decodeURIComponent(url.pathname.replace("/api/bookings/", ""));
+      const deleted = await deleteBooking(bookingId);
+      send(res, 200, JSON.stringify({ ok: true, booking: deleted }));
+    } catch (error) {
+      send(res, error.statusCode || 400, JSON.stringify({ ok: false, error: error.message }));
+    }
+    return;
+  }
+
   if (req.method === "GET" && req.url.startsWith("/api/availability")) {
     const url = new URL(req.url, `http://localhost:${PORT}`);
     const barber = url.searchParams.get("barber");

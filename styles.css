@@ -501,6 +501,27 @@ fieldset {
   gap: 12px;
 }
 
+.payment-instructions {
+  border: 1px solid rgba(63, 183, 167, 0.28);
+  background:
+    linear-gradient(135deg, rgba(63, 183, 167, 0.13), rgba(241, 184, 93, 0.08)),
+    rgba(18, 17, 17, 0.42);
+  padding: 16px;
+}
+
+.payment-instructions strong,
+.hours-card strong {
+  display: block;
+  color: var(--cream);
+  font-size: 1rem;
+}
+
+.payment-instructions p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .barber-choice,
 .payment-choice {
   display: flex;
@@ -745,6 +766,28 @@ fieldset {
   line-height: 1.65;
 }
 
+.hours-card {
+  display: grid;
+  gap: 6px;
+  max-width: 420px;
+  margin-top: 24px;
+  border: 1px solid rgba(18, 17, 17, 0.16);
+  background: rgba(18, 17, 17, 0.06);
+  padding: 18px;
+}
+
+.hours-card strong {
+  color: var(--ink);
+}
+
+.hours-card span {
+  font-weight: 900;
+}
+
+.hours-card small {
+  color: rgba(18, 17, 17, 0.62);
+}
+
 .info-panel .eyebrow,
 .contact-band .eyebrow {
   color: #087f73;
@@ -792,6 +835,16 @@ fieldset {
 .contact-band p {
   color: rgba(18, 17, 17, 0.72);
   line-height: 1.55;
+}
+
+.map-link {
+  display: inline-flex;
+  margin-top: 16px;
+  border: 1px solid rgba(18, 17, 17, 0.22);
+  background: rgba(18, 17, 17, 0.07);
+  color: var(--ink);
+  font-weight: 900;
+  padding: 12px 14px;
 }
 
 .contact-band {

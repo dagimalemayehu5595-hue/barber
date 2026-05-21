@@ -48,6 +48,7 @@ const previewBarber = document.querySelector("#previewBarber");
 const previewPhone = document.querySelector("#previewPhone");
 const previewEmail = document.querySelector("#previewEmail");
 const paymentMethods = document.querySelector("#paymentMethods");
+const paymentInstructions = document.querySelector("#paymentInstructions");
 const proofHelp = document.querySelector("#proofHelp");
 const timeSlots = document.querySelector("#timeSlots");
 const slotHelp = document.querySelector("#slotHelp");
@@ -168,6 +169,15 @@ const renderPaymentMethods = () => {
     .join("");
 };
 
+const renderPaymentInstructions = () => {
+  const barber = getSelectedBarber();
+  const payment = getSelectedPayment();
+  paymentInstructions.innerHTML = `
+    <strong>Send 500 ETB before reserving</strong>
+    <p>${payment.label}: ${payment.accountNumber}<br />Account holder: ${payment.accountHolder}<br />Barber: ${barber.name}</p>
+  `;
+};
+
 const resetBookingUi = () => {
   form.reset();
   renderPaymentMethods();
@@ -185,6 +195,7 @@ const updatePreview = () => {
   const time = form.elements.time.value;
   const barber = getSelectedBarber();
   const payment = getSelectedPayment();
+  renderPaymentInstructions();
 
   previewName.textContent = name || "Waiting for details";
   previewBarber.textContent = barber.name;
@@ -308,7 +319,7 @@ form.addEventListener("submit", (event) => {
         throw new Error("Booking server unavailable");
       }
 
-      showToast(`Booking received for ${name} with ${barber.name}. We will confirm by phone at ${phone}.`);
+      showToast(`Booking sent to the shop for ${name}. Please wait for confirmation from ${barber.name}.`);
     } catch (error) {
       const savedBooking = {
         ...booking,
@@ -322,7 +333,7 @@ form.addEventListener("submit", (event) => {
 
       bookings.unshift(savedBooking);
       localStorage.setItem("submit72Bookings", JSON.stringify(bookings.slice(0, 20)));
-      showToast(`Booking saved on this device for ${name}. Run the server to receive bookings at the shop.`);
+      showToast(`Booking saved for ${name}. When the backend is running, it will be sent to the shop for confirmation.`);
     }
 
     resetBookingUi();
@@ -332,5 +343,6 @@ form.addEventListener("submit", (event) => {
 });
 
 renderPaymentMethods();
+renderPaymentInstructions();
 renderTimeSlots();
 updatePreview();

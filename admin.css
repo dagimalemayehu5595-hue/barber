@@ -1,0 +1,84 @@
+.admin-body {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(63, 183, 167, 0.12), transparent 36%),
+    linear-gradient(315deg, rgba(241, 184, 93, 0.16), transparent 42%),
+    var(--ink);
+}
+
+.admin-shell {
+  width: min(1120px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 44px 0;
+}
+
+.admin-hero {
+  margin-bottom: 22px;
+}
+
+.admin-hero h1 {
+  margin: 0 0 14px;
+  font-size: clamp(2.8rem, 8vw, 6rem);
+}
+
+.admin-hero p:not(.eyebrow),
+.admin-login p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.admin-login,
+.booking-card {
+  border: 1px solid rgba(255, 241, 214, 0.16);
+  background: rgba(255, 241, 214, 0.06);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.admin-login {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto;
+  gap: 14px;
+  align-items: end;
+  margin-bottom: 22px;
+}
+
+.admin-login p {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.admin-list {
+  display: grid;
+  gap: 12px;
+}
+
+.booking-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+}
+
+.booking-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+}
+
+.booking-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.danger {
+  border-color: rgba(255, 150, 120, 0.55);
+  background: rgba(255, 120, 90, 0.12);
+  color: var(--cream);
+}
+
+@media (max-width: 720px) {
+  .admin-login,
+  .booking-card {
+    grid-template-columns: 1fr;
+  }
+}

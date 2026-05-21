@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit 72 Admin</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body class="admin-body">
+    <main class="admin-shell">
+      <section class="admin-hero">
+        <p class="eyebrow">Booking manager</p>
+        <h1>Submit 72 Admin</h1>
+        <p>View bookings, confirm clients, and cancel a booking to reopen that barber's time slot.</p>
+      </section>
+
+      <section class="admin-login" id="adminLogin">
+        <label>
+          <span>Admin PIN</span>
+          <input id="adminPin" type="password" placeholder="Enter PIN" />
+        </label>
+        <button class="button primary" id="loadBookings" type="button">Load bookings</button>
+        <p id="adminMessage"></p>
+      </section>
+
+      <section class="admin-list" id="bookingList" aria-live="polite"></section>
+    </main>
+
+    <script src="admin.js"></script>
+  </body>
+</html>

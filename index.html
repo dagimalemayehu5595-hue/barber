@@ -139,6 +139,7 @@
             <fieldset class="form-panel payment-panel">
               <legend>Payment method</legend>
               <div id="paymentMethods"></div>
+              <div class="payment-instructions" id="paymentInstructions"></div>
             </fieldset>
 
             <div class="form-panel final-panel">
@@ -152,7 +153,7 @@
               </label>
 
               <button class="button submit" type="submit">Reserve haircut</button>
-              <p class="form-note">We will confirm your booking using the phone number you provide.</p>
+              <p class="form-note" id="confirmationNote">After booking, your details and payment proof will be sent to the shop for confirmation.</p>
             </div>
           </form>
 
@@ -184,6 +185,11 @@
           <p class="eyebrow">Before you arrive</p>
           <h2>One clean flow from phone to chair.</h2>
           <p>Everything is built around avoiding wait time: choose your barber, lock the payment, and arrive with your proof ready.</p>
+          <div class="hours-card">
+            <strong>Opening hours</strong>
+            <span>Daily, 8:00 AM - 9:00 PM</span>
+            <small>Each haircut uses one 60-minute slot.</small>
+          </div>
         </div>
         <div class="steps" aria-label="Booking steps">
           <article data-step="01">
@@ -209,6 +215,7 @@
           <p class="eyebrow">Shop details</p>
           <h2 id="contact-title">Submit 72 Barber Studio</h2>
           <p>Addis Ababa, Submit 72</p>
+          <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Submit%2072%20Addis%20Ababa" target="_blank" rel="noreferrer">Open location in Google Maps</a>
         </div>
         <div class="barber-contact-list">
           <article>
