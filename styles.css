@@ -918,6 +918,11 @@ fieldset {
   font-weight: 700;
 }
 
+.developer-credit .hidden-admin-link {
+  color: inherit;
+  font-weight: inherit;
+}
+
 .toast {
   position: fixed;
   right: 18px;
