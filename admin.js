@@ -14,6 +14,7 @@ const bookingMarkup = (booking) => `
       <p>
         ${booking.date} at ${booking.time}<br />
         Client phone: ${booking.phone}<br />
+        Total: ${booking.price || "500 ETB"} / Deposit: ${booking.deposit || "250 ETB"} / Remaining: ${booking.remainingBalance || "250 ETB"}<br />
         Payment: ${booking.paymentMethod} ${booking.paymentAccountNumber}<br />
         Proof file: ${booking.proofFile || "Saved with booking"}
       </p>

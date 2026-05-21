@@ -8,7 +8,7 @@ const BARBERS = {
         id: "dagibladez-telebirr",
         method: "Telebirr",
         label: "Telebirr",
-        detail: "Send 500 ETB to 0993534777",
+        detail: "Send 250 ETB deposit to 0993534777",
         accountNumber: "0993534777",
         accountHolder: "Dagibladez",
       },
@@ -31,7 +31,7 @@ const BARBERS = {
         id: "360yabu-telebirr",
         method: "Telebirr",
         label: "Telebirr",
-        detail: "Send 500 ETB to 0939025328 - Account holder Yabtsega",
+        detail: "Send 250 ETB deposit to 0939025328 - Account holder Yabtsega",
         accountNumber: "0939025328",
         accountHolder: "Yabtsega",
       },
@@ -55,6 +55,9 @@ const slotHelp = document.querySelector("#slotHelp");
 const toast = document.querySelector("#toast");
 const dateInput = form.elements.date;
 const timeInput = form.elements.time;
+const HAIRCUT_PRICE = 500;
+const BOOKING_DEPOSIT = 250;
+const REMAINING_BALANCE = HAIRCUT_PRICE - BOOKING_DEPOSIT;
 const SLOT_DURATION_MINUTES = 60;
 const TIME_SLOTS = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
 
@@ -173,8 +176,8 @@ const renderPaymentInstructions = () => {
   const barber = getSelectedBarber();
   const payment = getSelectedPayment();
   paymentInstructions.innerHTML = `
-    <strong>Send 500 ETB before reserving</strong>
-    <p>${payment.label}: ${payment.accountNumber}<br />Account holder: ${payment.accountHolder}<br />Barber: ${barber.name}</p>
+    <strong>Send ${BOOKING_DEPOSIT} ETB deposit before reserving</strong>
+    <p>Total haircut: ${HAIRCUT_PRICE} ETB<br />Remaining at shop: ${REMAINING_BALANCE} ETB<br />${payment.label}: ${payment.accountNumber}<br />Account holder: ${payment.accountHolder}<br />Barber: ${barber.name}</p>
   `;
 };
 
@@ -203,7 +206,7 @@ const updatePreview = () => {
   previewEmail.textContent = barber.email;
   proofHelp.textContent = `Screenshot or photo of your ${payment.label} receipt`;
 
-  const details = ["500 ETB haircut", barber.name, `${payment.label} ${payment.accountNumber}`];
+  const details = [`${HAIRCUT_PRICE} ETB haircut`, `${BOOKING_DEPOSIT} ETB deposit`, barber.name, `${payment.label} ${payment.accountNumber}`];
   if (phone) details.push(phone);
   if (date && time) details.push(`${date} at ${time}`);
   previewMeta.textContent = details.join(" - ");
@@ -293,7 +296,9 @@ form.addEventListener("submit", (event) => {
       barberPhone: barber.phone,
       barberEmail: barber.email,
       service: "Haircut",
-      price: "500 ETB",
+      price: `${HAIRCUT_PRICE} ETB`,
+      deposit: `${BOOKING_DEPOSIT} ETB`,
+      remainingBalance: `${REMAINING_BALANCE} ETB`,
       paymentMethod: payment.method,
       paymentAccountNumber: payment.accountNumber,
       paymentAccountHolder: payment.accountHolder,
